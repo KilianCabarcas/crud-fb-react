@@ -31,7 +31,26 @@ const Show = () => {
         getProducts()
     }
     //5. SA2 confirm
-
+    const confirmDelete= (id) =>{
+        mySwal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              deleteProduct(id) 
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success"
+              });
+            }
+          });
+    } 
     //6. useEffect
     useEffect( () => {
         getProducts()
@@ -45,9 +64,9 @@ const Show = () => {
         <div className='row'>
             <div className='col'>
                 <div className='d-grid gap-2'>
-                    <Link to='/create' className='btn btn-secondary mt-2 mb-2'>Create</Link>
+                    <Link to='/create' className='btn btn-success mt-2 mb-2'>Create</Link>
                 </div>
-                <table className='table table-dark table-hover'>
+                <table className='table table-light table-hover'>
                     <thead>
                         <tr>
                            <th>Description</th> 
@@ -61,8 +80,8 @@ const Show = () => {
                                 <td>{product.description}</td>
                                 <td>{product.stock}</td>
                                 <td>
-                                    <Link to={'/edit/${product.id}'} className='btn btn-light'><i className="fa-solid fa-pencil"></i></Link>
-                                    <button onClick={ () => {deleteProduct(product.id)} } className='btn btn-danger'><i className="fa-regular fa-trash-can"></i></button>
+                                    <Link to={`/edit/${product.id}`} className='btn btn-warning'>Edit</Link>
+                                    <button onClick={ () => {confirmDelete(product.id)} } className='btn btn-danger'>Delete</button>
                                 </td>
                             </tr>
                         ))}
